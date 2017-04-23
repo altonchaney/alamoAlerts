@@ -1,0 +1,57 @@
+{
+	"Market":{
+		"FeedGenerated":"2017-04-13T17:13:26.363",
+		"SessionsGenerated":"2017-04-13T17:12:21.897",
+		"MarketId":"0000",
+		"MarketName":"Austin, TX",
+		"MarketSlug":"austin",
+		"Dates":[{
+			"DateId":"20170413",
+			"Date":"Thursday, April 13, 2017",
+			"Cinemas":[{
+				"CinemaId":"0008",
+				"CinemaName":"Mueller",
+				"CinemaTimeZoneATE":"America/Chicago",
+				"MarketName":"Austin, TX",
+				"CinemaSlug":"mueller",
+				"MarketSlug":"austin",
+				"Films":[{
+					"FilmId":"A000013901",
+					"FilmName":"2D BEAUTY AND THE BEAST (2017)",
+					"FilmYear":"2013",
+					"FilmRating":"PG",
+					"FilmRuntime":"144",
+					"FilmAgePolicy":"18 and up; Children 3 and up will be allowed only with a parent or guardian until 6:00pm. After 6:00pm, children 6 and up will be allowed only with a parent or guardian. No children under the age of 3 will be allowed and families with loud children will be asked to leave.",
+					"FilmSlug":"2d-beauty-and-the-beast",
+					"Series":[{
+						"SeriesId":"",
+						"SeriesName":"",
+						"Formats":[{
+							"FormatId":"0000000001",
+							"FormatName":"Digital",
+							"Sessions":[{
+								"SessionId":"1770",
+								"SessionTime":"6:30p",
+								"SessionStatus":"onsale",
+								"SessionSalesURL":"",
+								"SessionDateTime":"2017-04-13T18:30:00",
+								"SessionType":"NewRelease",
+								"SeatsLeft":"13",
+								"SeatingLow":"1"
+							},{
+								"SessionId":"1771",
+								"SessionTime":"9:45p",
+								"SessionStatus":"onsale",
+								"SessionSalesURL":"",
+								"SessionDateTime":"2017-04-13T21:45:00",
+								"SessionType":"NewRelease",
+								"SeatsLeft":"47",
+								"SeatingLow":"0"
+							}]
+						}]
+					}]
+				}]
+			}]
+		}]
+	}
+}

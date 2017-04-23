@@ -1,0 +1,63 @@
+- GET Alamo API
+- GET Storing API
+- for each 'Dates', do the following
+	- filter data down to specific 'Cinemas'
+		- look for 'CinemaId' "0003" or 'CinemaSlug' "village"
+	- if new 'Films' exist (perform a search against the Storing API)
+		- for each 'Series'
+			- for each 'Formats'
+				- for each 'Sessions'
+					- if 'SessionStatus' == "onsale", add Film to ALERT TEXT ARRAY
+						- format: {{ FilmName }}
+					- create new 'Films' object in Storing API
+					- and set 'FilmOnSale' to true
+					- and set 'FilmOnSaleDate' to 'DateId'
+					>> MOVE TO NEXT FILM
+	- for each existing 'Films' in the Storing API search, if 'FilmOnSaleAddl' == false && ('FilmOnSaleDate' + 4 days) > 'DateId'
+		- for each 'Series'
+			- for each 'Formats'
+				- for each 'Sessions'
+					- if session is new && 'SessionStatus' == "onsale", add Film to ALERT TEXT ARRAY
+						- format: {{ FilmName }} [Add'l Times]
+					- and set 'FilmOnSaleAddl' to true
+					>> MOVE TO NEXT FILM
+- if any changes were made to it, PUT Storing API
+- if alerts exist, send twitter alert
+- finally delete Alert Text object
+
+
+
+!- ALERT TEXT DATA MODEL -!
+{
+	"MarketId":"0000",
+	"MarketSlug":"austin",
+	"Cinemas":[{
+		"CinemaId":"0008",
+		"CinemaSlug":"mueller",
+		"Alerts":[
+			"{{ FilmName }}",
+			"{{ FilmName }} [Add'l Times]"
+		]
+	}]
+}
+
+
+!- STORING API DATA MODEL -!
+{
+	"MarketId":"0000",
+	"MarketName":"Austin, TX",
+	"MarketSlug":"austin",
+	"Cinemas":[{
+		"CinemaId":"0008",
+		"CinemaName":"Mueller",
+		"CinemaSlug":"mueller",
+		"Films":[{
+			"FilmId":"A000013901",
+			"FilmName":"2D BEAUTY AND THE BEAST (2017)",
+			"FilmSlug":"2d-beauty-and-the-beast",
+			"FilmOnSale":true,
+			"FilmOnSaleAddl":true,
+			"FilmOnSaleDate":20170413
+		}]
+	}]
+}
