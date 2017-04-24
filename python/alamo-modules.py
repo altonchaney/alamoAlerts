@@ -33,53 +33,57 @@ for date in alamoFeedJson["Market"]["Dates"]:
                     continue
             # if new 'Films' exist (perform a search against the Storing API)
             for film in cinema["Films"]:
-                storageFilmFlag = "false"
+
+                currentStorageFilm = {
+                    "FilmSlug": "undefined"
+                }
+
                 for storageFilm in currentStorageCinema["Films"]:
+                    if storageFilm["FilmSlug"] == film["FilmSlug"]:
+                        currentStorageFilm = storageFilm
                     
-                    if storageFilmFlag == "false":
-                        if storageFilm["FilmSlug"] == film["FilmSlug"]:
-                            print film["FilmName"] + " already exists"
-                            storageFilmFlag = "true"
-                            # we'll add in the 'additional time' functionality later
-                            continue
-                        else:
-                            print film["FilmName"] + " is a new movie"
-                            newFilmObj = {
-                                "FilmId": film["FilmId"],
-                                "FilmName": film["FilmName"],
-                                "FilmSlug": film["FilmSlug"],
-                                "FilmOnSale":"false",
-                                "FilmOnSaleAddl":"false",
-                                "FilmOnSaleDate":date["DateId"]
-                            }
 
-                            #print newFilmObj
+                if currentStorageFilm["FilmSlug"] != "undefined":
+                    print film["FilmName"] + " already exists"
+                    # we'll add in the 'additional time' functionality later
+                    #     - for each existing 'Films' in the Storing API search, if 'FilmOnSaleAddl' == false && ('FilmOnSaleDate' + 4 days) > 'DateId'
+                    #         - for each 'Series'
+                    #             - for each 'Formats'
+                    #                 - for each 'Sessions'
+                    #                     - if session is new && 'SessionStatus' == "onsale", add Film to ALERT TEXT ARRAY
+                    #                         - format: {{ FilmName }} [Add'l Times]
+                    #                     - and set 'FilmOnSaleAddl' to true
+                    #                     >> MOVE TO NEXT FILM
+                    continue
+                else:
+                    print film["FilmName"] + " is a new movie"
+                    newFilmObj = {
+                        "FilmId": film["FilmId"],
+                        "FilmName": film["FilmName"],
+                        "FilmSlug": film["FilmSlug"],
+                        "FilmOnSale":"false",
+                        "FilmOnSaleAddl":"false",
+                        "FilmOnSaleDate":date["DateId"]
+                    }
 
-                            # for each 'Series'
-                            for series in film["Series"]:
-                                # for each 'Formats'
-                                for seriesformat in series["Formats"]:
-                                    # for each 'Sessions'
-                                    for session in seriesformat["Sessions"]:
-                                        if session["SessionStatus"] == "onsale":
-                                            newFilmObj["FilmOnSale"] = "true"
-                                            continue
-                    else:
-                        continue
+                    #print newFilmObj
+
+                    # for each 'Series'
+                    for series in film["Series"]:
+                        # for each 'Formats'
+                        for seriesformat in series["Formats"]:
+                            # for each 'Sessions'
+                            for session in seriesformat["Sessions"]:
+                                if session["SessionStatus"] == "onsale":
+                                    newFilmObj["FilmOnSale"] = "true"
+                                    continue
 #                     - if 'SessionStatus' == "onsale", add Film to ALERT TEXT ARRAY
 #                         - format: {{ FilmName }}
 #                     - create new 'Films' object in Storing API
 #                     - and set 'FilmOnSale' to true
 #                     - and set 'FilmOnSaleDate' to 'DateId'
 #                     >> MOVE TO NEXT FILM
-#     - for each existing 'Films' in the Storing API search, if 'FilmOnSaleAddl' == false && ('FilmOnSaleDate' + 4 days) > 'DateId'
-#         - for each 'Series'
-#             - for each 'Formats'
-#                 - for each 'Sessions'
-#                     - if session is new && 'SessionStatus' == "onsale", add Film to ALERT TEXT ARRAY
-#                         - format: {{ FilmName }} [Add'l Times]
-#                     - and set 'FilmOnSaleAddl' to true
-#                     >> MOVE TO NEXT FILM
+
 # - if any changes were made to it, PUT Storing API
 # - if alerts exist, send twitter alert
 # - finally delete Alert Text object
