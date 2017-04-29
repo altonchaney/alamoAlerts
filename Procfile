@@ -1,1 +1,1 @@
-clock: python alamoAlerts.py
+web: python alamoAlertClock.py
