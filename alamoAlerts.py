@@ -172,7 +172,7 @@ def alamoAlertGenerator():
             if twitterStatus0003 != "":
                 # print twitterStatus0003
                 twitterApi.update_status(twitterStatus0003)
-            else:
+            # else:
                 # print "No new movies :("
 
             # - if any changes were made to it, PUT Storing API
