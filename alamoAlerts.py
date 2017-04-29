@@ -170,10 +170,10 @@ def alamoAlertGenerator():
             # TWITTER STATUS TEXT EXAMPLE:
             # "Multi-Line List:\n- Line Item 1\n- Line Item 2\n- Line Item 3\n- Line Item 4\n- Line Item 5\n- Line Item 6\n- Line Item 7\n- Line Item 8"
             if twitterStatus0003 != "":
-                print twitterStatus0003
+                # print twitterStatus0003
                 twitterApi.update_status(twitterStatus0003)
             else:
-                print "No new movies :("
+                # print "No new movies :("
 
             # - if any changes were made to it, PUT Storing API
             
