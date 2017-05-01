@@ -1,0 +1,51 @@
+doctype html
+html
+	head
+		title Alamo Alerts!
+
+		// IE compatibility
+		meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
+		meta(http-equiv="X-UA-Compatible", content="IE=Edge")
+
+		// meta data
+		meta(property="og:url", content="http://www.alamoalerts.com/")
+		meta(property="og:type", content="website")
+		meta(property="og:title", content="Alamo Alerts!")
+		meta(property="og:description", content="Find out when movies go on sale at select Alamo Drafthouse locations.")
+		meta(property="og:site_name", content="Alamo Alerts!")
+		meta(property="og:image", content="http://insito.me/stage/img/meta-preview.jpg")
+
+		// twitter meta
+		meta(property="twitter:card", content="summary_large_image")
+		meta(property="twitter:domain", content="alamoalerts.com")
+		meta(property="twitter:title", content="Alamo Alerts!")
+		meta(property="twitter:description", content="Find out when movies go on sale at select Alamo Drafthouse locations.")
+		meta(property="twitter:image", content="http://insito.me/stage/img/meta-preview.jpg")
+		meta(property="twitter:url", content="http://www.alamoalerts.com/")
+
+		// css stylesheets
+		link(rel='stylesheet', type='text/css', href='/css/normalize.css')
+		// link(rel='stylesheet', type='text/css', href='/css/main.css')
+
+	body#app
+		section#header
+			.background(style="background-image: url({{ bannerBackgroundUrl }})")
+			img.logo(src="img/logo.png")
+
+		section#body
+			// dropdown for available locations
+			select#select-locations(v-model="activeCinema")
+				option(v-for="cinema in cinemas", v-bind:value="cinema.CinemaId") {{ cinema.CinemaName }}
+
+			// list of movies on sale
+			ul(v-for="cinema in cinemas", id="cinema-list-{{ cinema.CinemaId }}", v-bind:class="{ active: activeCinema == cinema.CinemaId }")
+				li(v-for="film in films")
+					a(href="< DRAFTHOUSE URL >", target="_blank")
+						h3.film-release Releases {{ film.FilmOnSaleDate | prettyDate }}
+						h2.film-title {{ film.FilmName | uppercase }}
+						h4.film-addl-tag(v-if="film.FilmOnSaleDate == 'true'") Add'l Showings!
+
+		section#footer
+			p Made by Alton Chaney
+
+		script(src="/vendor/vuejs/vue.js")
