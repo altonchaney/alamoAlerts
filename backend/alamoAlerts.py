@@ -1,5 +1,6 @@
 # Alamo Alerts Module
 
+import shutil
 import requests
 import json
 import os
@@ -15,18 +16,22 @@ twitterAuth = tweepy.OAuthHandler("MzMGLR7WDxAVnFm1mfCwqqZ5c", "L7zzwuL7RWXL7FgX
 twitterAuth.set_access_token("856950304725770240-AaDXJODlclQPVlGAhj5jo6PDS2jZSth", "KqV9NwRuRiN8iZ0Ha8LJ513QnUXaJnsbgpUFZ6XA8rMCK")
 twitterApi = tweepy.API(twitterAuth)
 
+# make a copy of the original Storage JSON file first
+shutil.copy2("/home/altonchaney/webapps/htdocs/alamoAlert/alamoDataStorage.json", "/home/altonchaney/webapps/htdocs/alamoAlert/alamoDataStorage-"+ localTime.format('YYYYMMDD') +".json")
+
 # GET Alamo API
 alamoFeed = requests.get('http://feeds.drafthouse.com/adcService/showtimes.svc/market/0000/')
 alamoFeedJson = alamoFeed.json()
-# GET Storing JSON file
-with open("alamoDataStorage.json") as storageDataJson:
+
+# get the copied Storing JSON file
+with open("/home/altonchaney/webapps/htdocs/alamoAlert/alamoDataStorage-"+ localTime.format('YYYYMMDD') +".json") as storageDataJson:
     storageData = json.load(storageDataJson)
     # print("-------------------------------")
     # print(storageData)
     # print("-------------------------------")
 
     # create a new writeable Storing JSON file which we will use to write new objects to and replace our old Storing JSON file if changes are made
-    with open("alamoDataStorage-new.json", "w") as storageDataJsonNew:
+    with open("/home/altonchaney/webapps/htdocs/alamoAlert/alamoDataStorage.json", "w") as storageDataJsonNew:
 
         # json.dump(storageData, storageDataJsonNew)
 
@@ -59,6 +64,7 @@ with open("alamoDataStorage.json") as storageDataJson:
                         currentStorageFilm = {
                             "FilmSlug": "undefined"
                         }
+
                         # look through our current cinema storage and replace the undefined object if a match is found
                         for storageFilm in currentStorageCinema["Films"]:
                             if storageFilm["FilmSlug"] == film["FilmSlug"]:
@@ -176,5 +182,4 @@ with open("alamoDataStorage.json") as storageDataJson:
         json.dump(storageData, storageDataJsonNew)
 
         # and replace the the old file with the new file
-        os.renames("alamoDataStorage.json", "z_archive/alamoDataStorage-"+ localTime.format('YYYYMMDD') +".json")
-        os.renames("alamoDataStorage-new.json", "alamoDataStorage.json")
+        os.renames("/home/altonchaney/webapps/htdocs/alamoAlert/alamoDataStorage-"+ localTime.format('YYYYMMDD') +".json", "/home/altonchaney/webapps/htdocs/alamoAlert/z_archive/alamoDataStorage-"+ localTime.format('YYYYMMDD') +".json")
